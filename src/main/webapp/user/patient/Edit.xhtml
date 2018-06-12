@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditPatientTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditPatientLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{patientController.selected.id}" title="#{bundle.EditPatientTitle_id}" required="true" requiredMessage="#{bundle.EditPatientRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.EditPatientLabel_patientFirstName}" for="patientFirstName" />
+                    <h:inputText id="patientFirstName" value="#{patientController.selected.patientFirstName}" title="#{bundle.EditPatientTitle_patientFirstName}" required="true" requiredMessage="#{bundle.EditPatientRequiredMessage_patientFirstName}"/>
+                   <h:outputLabel value="#{bundle.EditPatientLabel_patientLastName}" for="patientLastName" />
+                    <h:inputText id="patientLastName" value="#{patientController.selected.patientLastName}" title="#{bundle.EditPatientTitle_patientLastName}" />
+                    <h:outputLabel value="#{bundle.EditPatientLabel_birthDate}" for="birthDate" />
+                <p:calendar pattern="dd/MM/yyyy" id="birthDate" value="#{patientController.selected.birthDate}" title="#{bundle.EditPatientTitle_birthDate}" required="true" requiredMessage="#{bundle.EditPatientRequiredMessage_birthDate}" showOn="button" />
+                   
+                    
+                    <h:outputLabel value="#{bundle.EditPatientLabel_jmbg}" for="jmbg" />
+                    <h:inputText id="jmbg" value="#{patientController.selected.jmbg}" title="#{bundle.EditPatientTitle_jmbg}" required="true" requiredMessage="#{bundle.EditPatientRequiredMessage_jmbg}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{patientController.update}" value="#{bundle.EditPatientSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditPatientViewLink}"/>
+                <br />
+                <h:commandLink action="#{patientController.prepareList}" value="#{bundle.EditPatientShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditPatientIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
