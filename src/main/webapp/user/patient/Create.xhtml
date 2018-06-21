@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
@@ -16,23 +17,18 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
-                
+                    
                     <h:outputLabel value="#{bundle.CreatePatientLabel_patientFirstName}" for="patientFirstName" />
                     <p:inputText id="patientFirstName" value="#{patientController.selected.patientFirstName}" title="#{bundle.CreatePatientTitle_patientFirstName}" required="true" requiredMessage="#{bundle.CreatePatientRequiredMessage_patientFirstName}"/>
-                    
-                    <h:outputLabel value="#{bundle.CreatePatientLabel_patientLastName}" for="patientLastName" />
+                 <h:outputLabel value="#{bundle.CreatePatientLabel_patientLastName}" for="patientLastName" />
                     <p:inputText id="patientLastName" value="#{patientController.selected.patientLastName}" title="#{bundle.CreatePatientTitle_patientLastName}" />
-                  
                     <h:outputLabel value="#{bundle.CreatePatientLabel_birthDate}" for="birthDate" />
-                    <p:calendar  pattern="dd/MM/yyyy" id="birthDate" value="#{patientController.selected.birthDate}" title="#{bundle.CreatePatientTitle_birthDate}" required="true" requiredMessage="#{bundle.CreatePatientRequiredMessage_birthDate}" showOn="button" />
-                   
-                  
-                  
-                    
+                    <p:calendar pattern="dd/MM/yyyy" id="birthDate" showOn="button" value="#{patientController.selected.birthDate}" title="#{bundle.CreatePatientTitle_birthDate}" required="true" requiredMessage="#{bundle.CreatePatientRequiredMessage_birthDate}"/>
                     <h:outputLabel value="#{bundle.CreatePatientLabel_jmbg}" for="jmbg" />
                     <p:inputText id="jmbg" value="#{patientController.selected.jmbg}" title="#{bundle.CreatePatientTitle_jmbg}" required="true" requiredMessage="#{bundle.CreatePatientRequiredMessage_jmbg}"/>
+                   <!-- <h:outputLabel value="#{bundle.CreatePatientLabel_addedBy}" for="addedBy" /> -->
+                    <input type="hidden"  value="#{loginView.authenticatedUser.email}" jsf:id="addedBy" jsf:value="#{patientController.selected.addedBy}" jsf:title="#{bundle.CreatePatientLabel_addedBy}" />
                 </h:panelGrid>
-                
                 <br />
                 <h:commandLink action="#{patientController.create}" value="#{bundle.CreatePatientSaveLink}" />
                 <br />
@@ -40,10 +36,7 @@
                 <h:commandLink action="#{patientController.prepareList}" value="#{bundle.CreatePatientShowAllLink}" immediate="true"/>
                 <br />
                 <br />
-                <h:link outcome="/index" value="#{bundle.CreatePatientIndexLink}"/>
-            </h:form>
-            <h:form>
-                 
+                <h:link outcome="/user/pregledPacijenta/List1" value="Početna"/>
             </h:form>
         </ui:define>
     </ui:composition>

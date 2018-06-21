@@ -15,19 +15,20 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
-                    <h:outputText value="#{bundle.ViewPatientLabel_id}"/>
-                    <h:outputText value="#{patientController.selected.id}" title="#{bundle.ViewPatientTitle_id}"/>
+                   
                     <h:outputText value="#{bundle.ViewPatientLabel_patientFirstName}"/>
                     <h:outputText value="#{patientController.selected.patientFirstName}" title="#{bundle.ViewPatientTitle_patientFirstName}"/>
+                    
                     <h:outputText value="#{bundle.ViewPatientLabel_patientLastName}"/>
                     <h:outputText value="#{patientController.selected.patientLastName}" title="#{bundle.ViewPatientTitle_patientLastName}"/>
                     <h:outputText value="#{bundle.ViewPatientLabel_birthDate}"/>
                     <h:outputText value="#{patientController.selected.birthDate}" title="#{bundle.ViewPatientTitle_birthDate}">
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputText>
-                   
                     <h:outputText value="#{bundle.ViewPatientLabel_jmbg}"/>
                     <h:outputText value="#{patientController.selected.jmbg}" title="#{bundle.ViewPatientTitle_jmbg}"/>
+              <!--      <h:outputText value="#{bundle.ViewPatientLabel_addedBy}"/> -->
+               <!--     <h:outputText value="#{patientController.selected.addedBy}" title="#{bundle.ViewPatientTitle_addedBy}"/> -->
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{patientController.destroyAndView}" value="#{bundle.ViewPatientDestroyLink}"/>
@@ -40,7 +41,7 @@
                 <h:commandLink action="#{patientController.prepareList}" value="#{bundle.ViewPatientShowAllLink}"/>
                 <br />
                 <br />
-                <h:link outcome="/index" value="#{bundle.ViewPatientIndexLink}"/>
+                <h:link outcome="/user/pregledPacijenta/List1" value="Početna"/>
 
             </h:form>
         </ui:define>

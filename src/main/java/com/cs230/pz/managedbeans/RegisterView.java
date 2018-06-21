@@ -55,14 +55,14 @@ public class RegisterView implements Serializable {
         }
 
         if (!password.equals(confirmPassword)) {
-            FacesMessage msg = new FacesMessage("Confirm password does not match password");
+            FacesMessage msg = new FacesMessage("Potvrda password-a se ne poklapa sa password-om");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             facesContext.addMessage(passwordId, msg);
             facesContext.renderResponse();
         }
 
         if (userEJB.findUserById(email) != null) {
-            FacesMessage msg = new FacesMessage("User with this e-mail already exists");
+            FacesMessage msg = new FacesMessage("Korisnik sa ovim e-mail-om već postoji");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             facesContext.addMessage(passwordId, msg);
             facesContext.renderResponse();
@@ -75,7 +75,7 @@ public class RegisterView implements Serializable {
        
         User user = new User(email, password, firstName, lastName);
         userEJB.createUser(user);
-        log.info("New user created with e-mail: " + email + " and name: " + firstName + " " + lastName);
+        log.info("Novi korisnik je dodat sa e-mail-om: " + email + " i imenom: " + firstName + " " + lastName);
         
         
         return "regdone";

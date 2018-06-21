@@ -7,6 +7,6 @@
         <resource-bundle>
             <base-name>/Bundle</base-name>
             <var>bundle</var>
-        </resource-bundle>
+        </resource-bundle>    
     </application>
 </faces-config>

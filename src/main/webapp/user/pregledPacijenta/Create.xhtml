@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui">
+    
+        
+    
+    <ui:composition template="/template.xhtml">
+
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreatePregledPacijentaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form id="myform">
+
+
+
+                <h:panelGrid  columns="2">
+                   
+                   
+                    <h:outputLabel value="#{bundle.CreatePregledPacijentaLabel_datumPregleda}" for="datumPregleda" />
+                    <p:calendar pattern="dd/MM/yyyy HH:mm:ss" id="datumPregleda" showOn="button" value="#{pregledPacijentaController.selected.datumPregleda}" title="#{bundle.CreatePregledPacijentaTitle_datumPregleda}"/>
+
+                    <h:outputLabel value="#{bundle.CreatePregledPacijentaLabel_sledeciPregled}" for="sledeciPregled" />
+                    <p:calendar pattern="dd/MM/yyyy HH:mm:ss" id="sledeciPregled" showOn="button" value="#{pregledPacijentaController.selected.sledeciPregled}" title="#{bundle.CreatePregledPacijentaTitle_sledeciPregled}"/> 
+
+                    <h:outputLabel value="#{bundle.CreatePregledPacijentaLabel_opisPregleda}" for="opisPregleda" />
+                    <p:inputTextarea rows="5" cols="25" autoResize="false" id="opisPregleda" value="#{pregledPacijentaController.selected.opisPregleda}" title="#{bundle.CreatePregledPacijentaTitle_opisPregleda}" required="true" requiredMessage="#{bundle.CreatePregledPacijentaRequiredMessage_opisPregleda}"/>
+                    
+                    
+                    <!--  <h:outputLabel value="#{bundle.CreatePregledPacijentaLabel_usersEmail}" for="usersEmail" /> -->
+                    <input type="hidden"  value="#{loginView.authenticatedUser.email}" jsf:id="usersEmail" jsf:value="#{pregledPacijentaController.selected.usersEmail}" jsf:title="#{bundle.CreatePregledPacijentaTitle_usersEmail}" />
+
+                    <h:outputLabel value="#{bundle.CreatePregledPacijentaLabel_patientID}" for="patientID" />
+                    <p:selectOneMenu  id="patientID" value="#{pregledPacijentaController.selected.patientID}" title="#{bundle.CreatePregledPacijentaTitle_patientID}" required="true" requiredMessage="#{bundle.CreatePregledPacijentaRequiredMessage_patientID}">
+                        
+                       
+                        <f:selectItems var="item" value="#{patientController.itemsAvailableSelectOne}" />
+                       
+                    </p:selectOneMenu>
+
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{pregledPacijentaController.create}" value="#{bundle.CreatePregledPacijentaSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{pregledPacijentaController.prepareList}" value="#{bundle.CreatePregledPacijentaShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="List1" value="Početna"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

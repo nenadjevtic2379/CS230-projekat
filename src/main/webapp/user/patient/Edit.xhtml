@@ -16,18 +16,18 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.EditPatientLabel_id}" for="id" />
-                    <h:inputText id="id" value="#{patientController.selected.id}" title="#{bundle.EditPatientTitle_id}" required="true" requiredMessage="#{bundle.EditPatientRequiredMessage_id}"/>
+                 
                     <h:outputLabel value="#{bundle.EditPatientLabel_patientFirstName}" for="patientFirstName" />
-                    <h:inputText id="patientFirstName" value="#{patientController.selected.patientFirstName}" title="#{bundle.EditPatientTitle_patientFirstName}" required="true" requiredMessage="#{bundle.EditPatientRequiredMessage_patientFirstName}"/>
-                   <h:outputLabel value="#{bundle.EditPatientLabel_patientLastName}" for="patientLastName" />
-                    <h:inputText id="patientLastName" value="#{patientController.selected.patientLastName}" title="#{bundle.EditPatientTitle_patientLastName}" />
+                    <p:inputText id="patientFirstName" value="#{patientController.selected.patientFirstName}" title="#{bundle.EditPatientTitle_patientFirstName}" required="true" requiredMessage="#{bundle.EditPatientRequiredMessage_patientFirstName}"/>
+                    <h:outputLabel value="#{bundle.EditPatientLabel_patientLastName}" for="patientLastName" />
+                    <p:inputText id="patientLastName" value="#{patientController.selected.patientLastName}" title="#{bundle.EditPatientTitle_patientLastName}" />
                     <h:outputLabel value="#{bundle.EditPatientLabel_birthDate}" for="birthDate" />
-                <p:calendar pattern="dd/MM/yyyy" id="birthDate" value="#{patientController.selected.birthDate}" title="#{bundle.EditPatientTitle_birthDate}" required="true" requiredMessage="#{bundle.EditPatientRequiredMessage_birthDate}" showOn="button" />
-                   
+                    <p:calendar pattern="dd/MM/yyyy" id="birthDate" showOn="button" value="#{patientController.selected.birthDate}" title="#{bundle.CreatePatientTitle_birthDate}" required="true" requiredMessage="#{bundle.CreatePatientRequiredMessage_birthDate}"/>
                     
                     <h:outputLabel value="#{bundle.EditPatientLabel_jmbg}" for="jmbg" />
-                    <h:inputText id="jmbg" value="#{patientController.selected.jmbg}" title="#{bundle.EditPatientTitle_jmbg}" required="true" requiredMessage="#{bundle.EditPatientRequiredMessage_jmbg}"/>
+                    <p:inputText id="jmbg" value="#{patientController.selected.jmbg}" title="#{bundle.EditPatientTitle_jmbg}" required="true" requiredMessage="#{bundle.EditPatientRequiredMessage_jmbg}"/>
+                  <!--  <h:outputLabel value="#{bundle.EditPatientLabel_addedBy}" for="addedBy" /> -->
+               <!--     <p:inputText id="addedBy" value="#{patientController.selected.addedBy}" title="#{bundle.EditPatientTitle_addedBy}" /> -->
                 </h:panelGrid>
                 <h:commandLink action="#{patientController.update}" value="#{bundle.EditPatientSaveLink}"/>
                 <br />
@@ -37,7 +37,7 @@
                 <h:commandLink action="#{patientController.prepareList}" value="#{bundle.EditPatientShowAllLink}" immediate="true"/>
                 <br />
                 <br />
-                <h:link outcome="/index" value="#{bundle.EditPatientIndexLink}" />
+                <h:link outcome="/user/pregledPacijenta/List1" value="Početna" />
             </h:form>
         </ui:define>
     </ui:composition>

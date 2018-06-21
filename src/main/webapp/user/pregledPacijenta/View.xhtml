@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewPregledPacijentaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                   
+                    <h:outputText value="#{bundle.ViewPregledPacijentaLabel_datumPregleda}"/>
+                    <h:outputText value="#{pregledPacijentaController.selected.datumPregleda}" title="#{bundle.ViewPregledPacijentaTitle_datumPregleda}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewPregledPacijentaLabel_sledeciPregled}"/>
+                    <h:outputText value="#{pregledPacijentaController.selected.sledeciPregled}" title="#{bundle.ViewPregledPacijentaTitle_sledeciPregled}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewPregledPacijentaLabel_opisPregleda}"/>
+                    <h:outputText value="#{pregledPacijentaController.selected.opisPregleda}" title="#{bundle.ViewPregledPacijentaTitle_opisPregleda}"/>
+                
+                
+                  
+                    <h:outputText value="#{bundle.ViewPregledPacijentaLabel_patientID}"/>
+                    <h:outputText value="#{pregledPacijentaController.selected.patientID.toString()}" title="#{bundle.ViewPregledPacijentaTitle_patientID}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{pregledPacijentaController.destroyAndView}" value="#{bundle.ViewPregledPacijentaDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewPregledPacijentaEditLink}"/>
+                <br />
+                <h:commandLink action="#{pregledPacijentaController.prepareCreate}" value="#{bundle.ViewPregledPacijentaCreateLink}" />
+                <br />
+                <h:commandLink action="#{pregledPacijentaController.prepareList}" value="#{bundle.ViewPregledPacijentaShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="List1" value="Početna"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

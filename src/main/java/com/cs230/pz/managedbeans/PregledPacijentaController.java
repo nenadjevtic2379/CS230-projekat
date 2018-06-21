@@ -1,11 +1,17 @@
 package com.cs230.pz.managedbeans;
 
-import com.cs230.pz.entity.Patient;
+import com.cs230.pz.entity.PregledPacijenta;
 import com.cs230.pz.managedbeans.util.JsfUtil;
 import com.cs230.pz.managedbeans.util.PaginationHelper;
-import com.cs230.pz.ejb.PatientFacade;
+import com.cs230.pz.ejb.PregledPacijentaFacade;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -19,32 +25,35 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
 
-@Named("patientController")
+@Named("pregledPacijentaController")
 @SessionScoped
-public class PatientController implements Serializable {
+public class PregledPacijentaController implements Serializable {
 
-
-    private Patient current;
+    private PregledPacijenta current;
     private DataModel items = null;
-    @EJB private com.cs230.pz.ejb.PatientFacade ejbFacade;
+    @EJB
+    private com.cs230.pz.ejb.PregledPacijentaFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    
    
 
-    public PatientController() {
+    public PregledPacijentaController() {
+     
     }
 
-    public Patient getSelected() {
+    public PregledPacijenta getSelected() {
         if (current == null) {
-            current = new Patient();
+            current = new PregledPacijenta();
             selectedItemIndex = -1;
         }
-        return current; 
+        return current;
     }
 
-    private PatientFacade getFacade() {
+    private PregledPacijentaFacade getFacade() {
         return ejbFacade;
     }
+
     public PaginationHelper getPagination() {
         if (pagination == null) {
             pagination = new PaginationHelper(10) {
@@ -56,26 +65,26 @@ public class PatientController implements Serializable {
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem()+getPageSize()}));
+                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
                 }
             };
         }
         return pagination;
     }
- 
+
     public String prepareList() {
         recreateModel();
         return "List";
     }
 
     public String prepareView() {
-        current = (Patient)getItems().getRowData();
+        current = (PregledPacijenta) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Patient();
+        current = new PregledPacijenta();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -83,8 +92,9 @@ public class PatientController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PatientCreated"));
             
+            
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PregledPacijentaCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -93,7 +103,7 @@ public class PatientController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Patient)getItems().getRowData();
+        current = (PregledPacijenta) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -101,7 +111,7 @@ public class PatientController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PatientUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PregledPacijentaUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -110,7 +120,7 @@ public class PatientController implements Serializable {
     }
 
     public String destroy() {
-        current = (Patient)getItems().getRowData();
+        current = (PregledPacijenta) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -134,7 +144,7 @@ public class PatientController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PatientDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PregledPacijentaDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -144,14 +154,14 @@ public class PatientController implements Serializable {
         int count = getFacade().count();
         if (selectedItemIndex >= count) {
             // selected index cannot be bigger than number of items:
-            selectedItemIndex = count-1;
+            selectedItemIndex = count - 1;
             // go to previous page if last page disappeared:
             if (pagination.getPageFirstItem() >= count) {
                 pagination.previousPage();
             }
         }
         if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex+1}).get(0);
+            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
         }
     }
 
@@ -190,21 +200,21 @@ public class PatientController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public Patient getPatient(java.lang.Integer id) {
+    public PregledPacijenta getPregledPacijenta(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass=Patient.class)
-    public static class PatientControllerConverter implements Converter {
+    @FacesConverter(forClass = PregledPacijenta.class)
+    public static class PregledPacijentaControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            PatientController controller = (PatientController)facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "patientController");
-            return controller.getPatient(getKey(value));
+            PregledPacijentaController controller = (PregledPacijentaController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "pregledPacijentaController");
+            return controller.getPregledPacijenta(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -224,14 +234,23 @@ public class PatientController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Patient) {
-                Patient o = (Patient) object;
-                return getStringKey(o.getId());
+            if (object instanceof PregledPacijenta) {
+                PregledPacijenta o = (PregledPacijenta) object;
+                return getStringKey(o.getIDPregleda());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: "+Patient.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + PregledPacijenta.class.getName());
             }
         }
 
     }
-
+    
+    public String getDateNow() throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String s = dateFormat.format(date);
+        
+       
+        return date.toString().substring(0,10);
+    
+    }   
 }

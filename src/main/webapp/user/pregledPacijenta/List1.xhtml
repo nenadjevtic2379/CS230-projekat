@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Današnji pregledi"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListPregledPacijentaEmpty}" rendered="#{pregledPacijentaController.items.rowCount == 0}"/>
+               
+                <h:panelGroup rendered="#{pregledPacijentaController.items.rowCount > 0}">
+                <!--    <h:outputText value="#{pregledPacijentaController.pagination.pageFirstItem + 1}..#{pregledPacijentaController.pagination.pageLastItem + 1}/#{pregledPacijentaController.pagination.itemsCount}"/>&nbsp; -->
+                    <h:commandLink action="#{pregledPacijentaController.previous}" value="#{bundle.Previous} #{pregledPacijentaController.pagination.pageSize}" rendered="#{pregledPacijentaController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{pregledPacijentaController.next}" value="#{bundle.Next} #{pregledPacijentaController.pagination.pageSize}" rendered="#{pregledPacijentaController.pagination.hasNextPage}"/>&nbsp;
+               
+                    <ui:param name="date" value="#{pregledPacijentaController.getDateNow()}" />
+                    
+                    <p:dataTable expandableRowGroups="true" value="#{pregledPacijentaController.items}" sortBy="#{item.patientID.toString()}"
+                                 var="item" style="border:solid 1px" rowStyleClass="#{!item.sledeciPregled.toString().contains(date) or (item.usersEmail ne loginView.authenticatedUser.email) ? 'ui-helper-hidden' : ''}">
+                  
+                        
+                          
+                        <p:column groupRow="true" sortBy="#{item.patientID.toString()}" filterBy="#{item.patientID.patientFirstName}">
+                            
+                            <f:facet  name="header">
+                                <h:outputText value="#{bundle.ListPregledPacijentaTitle_patientID}"/>
+                            </f:facet>
+                            <p:row rendered="#{item.sledeciPregled.toString().contains(date) and (item.usersEmail eq loginView.authenticatedUser.email)}">
+                            <h:outputText  value="#{item.patientID.toString()}"/>
+                            </p:row>
+                        </p:column>
+                      
+                        
+                        <p:column>
+                            
+                            <f:facet  name="header">
+                                <h:outputText value="#{bundle.ListPregledPacijentaTitle_datumPregleda}"/>
+                            </f:facet>
+                            <p:row rendered="#{item.sledeciPregled.toString().contains(date) and (item.usersEmail eq loginView.authenticatedUser.email)}">
+                            <h:outputText  value="#{item.datumPregleda}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            </h:outputText>
+                            </p:row>
+                        </p:column>
+                        
+                        <p:column>
+                            
+                            <f:facet  name="header">
+                                <h:outputText value="#{bundle.ListPregledPacijentaTitle_sledeciPregled}"/>
+                            </f:facet>
+                            <p:row rendered="#{item.sledeciPregled.toString().contains(date) and (item.usersEmail eq loginView.authenticatedUser.email)}">
+                            <h:outputText  value="#{item.sledeciPregled}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            </h:outputText>
+                            </p:row>
+                        </p:column>
+                        
+                      <!--  <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPregledPacijentaTitle_opisPregleda}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.opisPregleda}"/>
+                        </h:column> 
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPregledPacijentaTitle_usersEmail}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usersEmail}"/>
+                        </h:column>  -->
+                    
+                      <p:column>
+                          
+                            <f:facet  name="header">
+                                <h:outputText  value="&nbsp;"/>
+                            </f:facet>
+                          <p:row rendered="#{item.sledeciPregled.toString().contains(date) and (item.usersEmail eq loginView.authenticatedUser.email)}">
+                            <h:commandLink  action="#{pregledPacijentaController.prepareView}" value="#{bundle.ListPregledPacijentaViewLink}"/>
+                            <h:outputText  value=" "/>
+                            <h:commandLink  action="#{pregledPacijentaController.prepareEdit}" value="#{bundle.ListPregledPacijentaEditLink}"/>
+                            <h:outputText  value=" "/>
+                            <h:commandLink  action="#{pregledPacijentaController.destroy}" value="#{bundle.ListPregledPacijentaDestroyLink}"/>
+                          </p:row>
+                        </p:column>
+                       
+                    </p:dataTable>
+                
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{pregledPacijentaController.prepareCreate}" value="#{bundle.ListPregledPacijentaCreateLink}"/>
+                <br />
+                <br />
+            <!--    <h:link outcome="/index" value="#{bundle.ListPregledPacijentaIndexLink}"/> -->
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

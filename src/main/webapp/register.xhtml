@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core" 
-                >
+                    
+                xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>register</title>
 </h:head>
@@ -10,38 +11,48 @@
 
 	<h:form>
 	
+            <p:growl id="growl" sticky="true" />
 		<!-- register a PostValidateEvent -->
 		<f:event listener="#{registerView.validatePassword}" type="postValidate" />
 
-		<h3>Create new account</h3>
-		<h:panelGrid columns="2">
-			<h:outputLabel for="firstName">First name:</h:outputLabel>
-			<h:inputText id="firstName" value="#{registerView.firstName}" required="true" requiredMessage="Please enter your name" maxlength="30"></h:inputText>
+		
+		<h:panelGrid columns="2" style="position: absolute; height: 500px; top: 50px; left:550px;">
+                    
+                     <f:facet name="header">
+                        <p:outputLabel>Unesite podatke za registraciju</p:outputLabel>
+                    </f:facet>
+			<h:outputLabel for="firstName">Ime:</h:outputLabel>
+                        <p:inputText id="firstName" value="#{registerView.firstName}" required="true" requiredMessage="Unesite ime" maxlength="30"></p:inputText>
                         
-                        <h:outputLabel for="lastName">Last name:</h:outputLabel>
-			<h:inputText id="lastName" value="#{registerView.lastName}" required="true" requiredMessage="Please enter your name" maxlength="30"></h:inputText>
+                        <h:outputLabel for="lastName">Prezime:</h:outputLabel>
+			<p:inputText id="lastName" value="#{registerView.lastName}" required="true" requiredMessage="Unesite prezime" maxlength="30"></p:inputText>
 			
 			<h:outputLabel for="email">E-Mail:</h:outputLabel>
-			<h:inputText id="email" value="#{registerView.email}" required="true" requiredMessage="Please enter your e-mail address">
+			<p:inputText id="email" value="#{registerView.email}" required="true" requiredMessage="Unesite e-mail">
 				<f:validator validatorId="emailValidator" />
-			</h:inputText>
+			</p:inputText>
 
 			<h:outputLabel for="password">Password:</h:outputLabel>
-			<h:inputSecret id="password" value="#{registerView.password}" required="true" requiredMessage="Please enter password" validatorMessage="Password must contain atleast one lowercase character, uppercase character, a digit and it's length must be between 6 and 20 characters">
+                        <p:password id="password" value="#{registerView.password}" required="true" requiredMessage="Unesite password" validatorMessage="Password mora sadržati najmanje jedno malo slovo, veliko slovo, broj i dužina mora biti između 6 i 20 karaktera">
 				<f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})" />
-			</h:inputSecret>
+                        </p:password>
 			
-			<h:outputLabel for="confirmpassword">Confirm password:</h:outputLabel>
-			<h:inputSecret id="confirmpassword" value="#{registerView.confirmPassword}" required="true" requiredMessage="Please confirm your password"></h:inputSecret>
+			<h:outputLabel for="confirmpassword">Potvrdite password:</h:outputLabel>
+                        <p:password id="confirmpassword" value="#{registerView.confirmPassword}" required="true" requiredMessage="Potvrdite vaš password"></p:password>
 
-			<h:commandButton action="#{registerView.register}" value="Register"></h:commandButton>
+                        <f:facet name="footer">
+                            <p:commandButton style="float: right" update="@form" action="#{registerView.register}" value="Register"></p:commandButton>
+                            <p:link style="float: left; padding-top: 10px" value="Već imam nalog" outcome="signin" />
+                        </f:facet>
+                        
+			
 
 		</h:panelGrid>
 
 	</h:form>
 	
-	<br/><br/>
-	<h:link value="I already have an account" outcome="signin" />
+	
+	
 	
 </h:body>
 </html>

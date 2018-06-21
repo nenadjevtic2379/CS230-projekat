@@ -42,7 +42,7 @@ public class LoginView implements Serializable {
 		try {
 			request.login(email, password);
 		} catch (ServletException e) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failed!", null));
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Logovanje neuspešno!", null));
 			return "signin";
 		}
 
@@ -50,17 +50,22 @@ public class LoginView implements Serializable {
 
 		this.user = userEJB.findUserById(principal.getName());
 
-		log.info("Authentication done for user: " + principal.getName());
+		log.info("Autentifikacija uspešna za: " + principal.getName());
 
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		Map<String, Object> sessionMap = externalContext.getSessionMap();
 		sessionMap.put("User", user);
-
+ 
 		if (request.isUserInRole("users")) {
-			return "/user/privatepage?faces-redirect=true";
+			return "/user/pregledPacijenta/List1?faces-redirect=true";
 		} else {
+                   
 			return "signin";
+                      
 		}
+                 
+               
+                
 	}
 
 	public String logout() {
@@ -73,7 +78,7 @@ public class LoginView implements Serializable {
 			// clear the session
 			((HttpSession) context.getExternalContext().getSession(false)).invalidate();
 		} catch (ServletException e) {
-			log.log(Level.SEVERE, "Failed to logout user!", e);
+			log.log(Level.SEVERE, "Neuspešna odjava!", e);
 		}
 
 		return "/signin?faces-redirect=true";
